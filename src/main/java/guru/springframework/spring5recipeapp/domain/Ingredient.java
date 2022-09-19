@@ -27,7 +27,7 @@ public class Ingredient {
     private Recipe recipe;
     
     @OneToOne
-    private UnitOfMesure unitOfMesure;
+    private UnitOfMeasure unitOfMesure;
 
     public Long getId() {
         return id;
