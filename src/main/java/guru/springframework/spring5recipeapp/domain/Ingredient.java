@@ -13,6 +13,7 @@ import javax.persistence.OneToOne;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 /**
  * Created by jt on 6/13/17.
@@ -20,6 +21,7 @@ import lombok.EqualsAndHashCode;
 @Entity
 @Data
 @EqualsAndHashCode(exclude={"recipe"})
+@NoArgsConstructor
 public class Ingredient {
 
     @Id
