@@ -111,5 +111,28 @@ class IngredientServiceImplTest {
         verify(recipeRepository, times(1)).save(any(Recipe.class));
 
     }
+    
+    @Test
+    public void testDeleteById() throws Exception {
+
+        //given
+        Optional<Recipe> savedRecipe = Optional.of(new Recipe());
+        savedRecipe.get().addIngredient(new Ingredient());
+        savedRecipe.get().getIngredients().iterator().next().setId(1L);
+        
+        Long idRecipe = Long.valueOf(2L);
+        Long idIngredientToDelete = Long.valueOf(1L);
+        
+        when(recipeRepository.findById(anyLong())).thenReturn(savedRecipe);
+        
+        //when
+        ingredientService.deleteById(idRecipe, idIngredientToDelete);
+
+        //no 'when', since method has void return type
+
+        //then
+        verify(recipeRepository, times(1)).findById(anyLong());
+        verify(recipeRepository, times(1)).save(any(Recipe.class));
+    }
 
 }
