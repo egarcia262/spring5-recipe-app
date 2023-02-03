@@ -12,7 +12,7 @@ import guru.springframework.spring5recipeapp.domain.Category;
 
 class CategoryToCategoryCommandTest {
 	
-	public static final Long ID_VALUE = Long.valueOf(1);
+	public static final String ID_VALUE = "1";
     public static final String DESCRIPTION = "description";
 	CategoryToCategoryCommand converter;
 	

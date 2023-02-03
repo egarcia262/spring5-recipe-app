@@ -9,19 +9,34 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 
+import guru.springframework.spring5recipeapp.bootstrap.RecipeBootstrap;
 import guru.springframework.spring5recipeapp.domain.UnitOfMeasure;
 
 @ExtendWith(MockitoExtension.class)
-@DataJpaTest
+// @DataJpaTest
+@DataMongoTest
 class UnitOfMeasureRepositoryIT {
 	
 	@Autowired
     UnitOfMeasureRepository unitOfMeasureRepository;
 	
+	@Autowired
+    CategoryRepository categoryRepository;
+
+    @Autowired
+    RecipeRepository recipeRepository;
+	
 	@BeforeEach
 	public void setUp() throws Exception {
+		recipeRepository.deleteAll();
+        unitOfMeasureRepository.deleteAll();
+        categoryRepository.deleteAll();
+
+        RecipeBootstrap recipeBootstrap = new RecipeBootstrap(categoryRepository, recipeRepository, unitOfMeasureRepository);
+
+        recipeBootstrap.onApplicationEvent(null);
 	}
 
 	@Test

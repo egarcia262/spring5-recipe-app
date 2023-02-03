@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -50,15 +50,15 @@ class RecipeServiceImplTest {
     @Test
     public void getRecipeByIdTest() throws Exception {
         Recipe recipe = new Recipe();
-        recipe.setId(1L);
+        recipe.setId("1");
         Optional<Recipe> recipeOptional = Optional.of(recipe);
 
-        when(recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
+        when(recipeRepository.findById(anyString())).thenReturn(recipeOptional);
 
-        Recipe recipeReturned = recipeService.findById(1L);
+        Recipe recipeReturned = recipeService.findById("1");
 
         assertNotNull(recipeReturned, "Null recipe returned");
-        verify(recipeRepository, times(1)).findById(anyLong());
+        verify(recipeRepository, times(1)).findById(anyString());
         verify(recipeRepository, never()).findAll();
     }
     
@@ -67,9 +67,9 @@ class RecipeServiceImplTest {
     	Exception exception = assertThrows(NotFoundException.class, () -> {
     		Optional<Recipe> recipeOptional = Optional.empty();
 
-            when(recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
+            when(recipeRepository.findById(anyString())).thenReturn(recipeOptional);
 
-            Recipe recipeReturned = recipeService.findById(1L);
+            Recipe recipeReturned = recipeService.findById("1");
         });
     	
     	String expectedMessage = "Recipe Not Found";
@@ -81,10 +81,11 @@ class RecipeServiceImplTest {
         //should go boom
     }
     
+    
     @Test
     public void getRecipeById_throws_NumberFormatException_when_id_is_not_a_number() throws Exception{
-    	Exception exception = assertThrows(NumberFormatException.class, () -> {
-    		recipeService.findById(Long.valueOf("asd"));
+    	Exception exception = assertThrows(NotFoundException.class, () -> {
+    		recipeService.findById("asd");
         });	
     	
     }
@@ -92,20 +93,20 @@ class RecipeServiceImplTest {
     @Test
     public void getRecipeCoomandByIdTest() throws Exception {
         Recipe recipe = new Recipe();
-        recipe.setId(1L);
+        recipe.setId("1");
         Optional<Recipe> recipeOptional = Optional.of(recipe);
 
-        when(recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
+        when(recipeRepository.findById(anyString())).thenReturn(recipeOptional);
 
         RecipeCommand recipeCommand = new RecipeCommand();
-        recipeCommand.setId(1L);
+        recipeCommand.setId("1");
 
         when(recipeToRecipeCommand.convert(any())).thenReturn(recipeCommand);
 
-        RecipeCommand commandById = recipeService.findCommandById(1L);
+        RecipeCommand commandById = recipeService.findCommandById("1");
 
         assertNotNull(commandById, "Null recipe returned");
-        verify(recipeRepository, times(1)).findById(anyLong());
+        verify(recipeRepository, times(1)).findById(anyString());
         verify(recipeRepository, never()).findAll();
     }
 
@@ -122,14 +123,14 @@ class RecipeServiceImplTest {
         Set<Recipe> recipes = recipeService.getRecipes();
  
         assertEquals(recipes.size(), 1);
-        verify(recipeRepository, never()).findById(anyLong());
+        verify(recipeRepository, never()).findById(anyString());
     }
     
     @Test
     public void testDeleteById() throws Exception {
 
         //given
-        Long idToDelete = Long.valueOf(2L);
+        String idToDelete = "2";
 
         //when
         recipeService.deleteById(idToDelete);
@@ -137,6 +138,6 @@ class RecipeServiceImplTest {
         //no 'when', since method has void return type
 
         //then
-        verify(recipeRepository, times(1)).deleteById(anyLong());
+        verify(recipeRepository, times(1)).deleteById(anyString());
     }
 }

@@ -13,7 +13,7 @@ import guru.springframework.spring5recipeapp.domain.UnitOfMeasure;
 class UnitOfMeasureCommandToUnitOfMeasureTest {
 	
 	public static final String DESCRIPTION = "description";
-    public static final Long LONG_VALUE = Long.valueOf(1);
+    public static final String LONG_VALUE = "1";
 
     UnitOfMeasureCommandToUnitOfMeasure converter;
     

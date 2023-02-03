@@ -12,7 +12,7 @@ import guru.springframework.spring5recipeapp.domain.Notes;
 
 class NotesCommandToNotesTest {
 	
-	public static final Long ID_VALUE = Long.valueOf(1);
+	public static final String ID_VALUE = "1";
     public static final String RECIPE_NOTES = "Notes";
     NotesCommandToNotes converter;
     
